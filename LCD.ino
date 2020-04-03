@@ -27,7 +27,7 @@ void setup() {
   lcd.clear();
 
   lcd.setCursor(0,0);
-    lcd.print("Pls save me");
+    lcd.print("aub why");
    
     }
 
@@ -40,13 +40,35 @@ void loop() {
  
   uint8_t buttons = lcd.readButtons();
 
- Serial.print("buttons");
+ // I want while loops
+ // with if loops inside
+ // int characters keeping track of how many times buttons get pressed
+
+ // if (buttons)
+ // if button_up, upcount = 1
+ // if button_down, downcount = 1
+ // ...
+
+ // currentdisp:
+ // = 0 when displaying Welcome
+ // = 1 when set to Temp
+ // = 2 when set to Light
+ // = 3 when set to Soil Moisture 
+ // changes every time left or right is pressed 
  
-    if (buttons & BUTTON_UP) {
-      lcd.print("UP");
-      Serial.print(buttons);
-      delay(500);
+ 
+    while (buttons & BUTTON_UP) {
+      lcd.clear();
+      lcd.setCursor(0, 0);
+      lcd.print("Temperature: ");
+      lcd.setCursor(0, 1);
+      lcd.print("75 Fahrenheit");
+      delay(5000);
+      //Serial.print(buttons);
       lcd.setBacklight(ON);
+        if (BUTTON_DOWN) {
+          Serial.print("we done it boys");
+        }
     }
     if (buttons & BUTTON_DOWN) {
       lcd.print(BUTTON_DOWN);
