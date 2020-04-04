@@ -1,4 +1,4 @@
-// original source: Aubrey Ashton
+// author: Aubrey Ashton
 // last change: 4/4/2020
 
 #include <LiquidCrystal.h>
