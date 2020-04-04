@@ -1,21 +1,10 @@
 #include <LiquidCrystal.h>
-
-/*********************
-
-Example code for the Adafruit RGB Character LCD Shield and Library
-
-This code displays text on the shield, and also reads the buttons on the keypad.
-
-**********************/
-
-// include the library code:
 #include <Wire.h>
 #include <Adafruit_RGBLCDShield.h>
 #include <utility/Adafruit_MCP23017.h>
 
 Adafruit_RGBLCDShield lcd = Adafruit_RGBLCDShield();
 
-// These #defines make it easy to set the backlight color
 #define ON 0x1
 #define OFF 0x0
 
@@ -27,68 +16,116 @@ void setup() {
   lcd.clear();
 
   lcd.setCursor(0,0);
-    lcd.print("aub why");
-   
-    }
+    lcd.print("Team 14, Y'all!!");
+}
+
+// DisplayCase keeps track of how many times left/right buttons have been pressed
+int DisplayCase = 0;
+// Page keeps track of how many times up/down has been pressed
+int Page = 0;
 
 void loop() {
-  /*lcd.scrollDisplayRight();
-  delay(100);*/
-  // set the cursor to column 0, line 1
-  // (note: line 1 is the second row, since counting begins with 0):
-  lcd.setCursor(0, 1);
- 
   uint8_t buttons = lcd.readButtons();
 
- // I want while loops
- // with if loops inside
- // int characters keeping track of how many times buttons get pressed
+// I made four display cases:
+// 0: Welcome Screen
+// 1: Temp Screen
+// 2: Light Screen
+// 3: Soil Moisture
+//    - under Soil Moisture, there are three cases:
+//    - Plant 1
+//    - Plant 2
+//    - Plant 3
 
- // if (buttons)
- // if button_up, upcount = 1
- // if button_down, downcount = 1
- // ...
 
- // currentdisp:
- // = 0 when displaying Welcome
- // = 1 when set to Temp
- // = 2 when set to Light
- // = 3 when set to Soil Moisture 
- // changes every time left or right is pressed 
- 
- 
-    while (buttons & BUTTON_UP) {
-      lcd.clear();
+// Navigating left/right will change the value for DisplayCase: 
+  if (buttons & BUTTON_RIGHT) {
+       DisplayCase = DisplayCase +1;
+  //Serial.print(DisplayCase);  
+  }
+  if (buttons & BUTTON_LEFT) {
+         DisplayCase = DisplayCase -1;
+  //Serial.print(DisplayCase);  
+  }
+
+// Navigating up/down will change the value for Page, 
+// which will change which plant's soil moisture we read
+  if (buttons & BUTTON_DOWN) {
+         Page = Page + 1;
+  //Serial.print(Page);  
+  }
+  if (buttons & BUTTON_UP) {
+         Page = Page - 1;
+  //Serial.print(Page);  
+  }
+
+// Because we want continuous looping (and no unexpected cases) anytime DisplayCase or Page 
+// go outside their expected ranges, we set them to the other end of their ranges.
+// EX: if left is pressed on the leftmost case, we will go to the rightmost case.
+  if (DisplayCase < 0){
+    DisplayCase = 3;
+  }
+  if (DisplayCase > 3){
+    DisplayCase = 0;
+  }
+
+// Again, we want continuous looping for Page:
+  if (Page < 0){
+    Page = 2;
+  }
+  if (Page > 2){
+    Page = 0;
+  }
+
+  switch(DisplayCase){
+    
+    // Welcome Screen:
+    case 0:
       lcd.setCursor(0, 0);
-      lcd.print("Temperature: ");
+      lcd.print("Howdy, Smart    ");
       lcd.setCursor(0, 1);
-      lcd.print("75 Fahrenheit");
-      delay(5000);
-      //Serial.print(buttons);
-      lcd.setBacklight(ON);
-        if (BUTTON_DOWN) {
-          Serial.print("we done it boys");
-        }
-    }
-    if (buttons & BUTTON_DOWN) {
-      lcd.print(BUTTON_DOWN);
-      Serial.print(buttons);
-      lcd.setBacklight(ON);
-    }
-    if (buttons & BUTTON_LEFT) {
-      lcd.print(BUTTON_LEFT);
-      Serial.print(buttons);
-      lcd.setBacklight(ON);
-    }
-    if (buttons & BUTTON_RIGHT) {
-       lcd.print(BUTTON_RIGHT);
-       Serial.print(buttons);
-       lcd.setBacklight(ON);
-    }
-    if (buttons & BUTTON_SELECT) {
-      lcd.print(BUTTON_SELECT);
-      Serial.print(buttons);
-      lcd.setBacklight(ON);
-    }
-  
+      lcd.print("Terrarium User! ");
+    break;
+
+    // Temperature:
+    case 1:
+      lcd.setCursor(0, 0);
+      lcd.print("Internal Temp:  ");
+      lcd.setCursor(0, 1);
+      lcd.print("Warm            ");
+      break;
+
+    // Light Reading:
+    case 2:
+      lcd.setCursor(0, 0);
+      lcd.print("Ambient Light:  ");
+      lcd.setCursor(0, 1);
+      lcd.print("Bright          ");
+      break;
+
+    // Soil Moisture:
+    case 3:
+      switch(Page){
+        case 0:
+        lcd.setCursor(0, 0);
+        lcd.print("Soil Moisture:  ");
+        lcd.setCursor(0, 1);
+        lcd.print("Plant 1: Wet    ");
+        break;
+        case 1:
+        lcd.setCursor(0, 0);
+        lcd.print("Soil Moisture:  ");
+        lcd.setCursor(0, 1);
+        lcd.print("Plant 2: Dry    ");
+        break;
+        case 2:
+        lcd.setCursor(0, 0);
+        lcd.print("Soil Moisture:  ");
+        lcd.setCursor(0, 1);
+        lcd.print("Plant 3: Good   ");
+        break;
+      }
+      break;
+    
+  }
 }
