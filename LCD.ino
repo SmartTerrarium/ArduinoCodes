@@ -1,3 +1,6 @@
+// original source: Aubrey Ashton
+// last change: 4/4/2020
+
 #include <LiquidCrystal.h>
 #include <Wire.h>
 #include <Adafruit_RGBLCDShield.h>
