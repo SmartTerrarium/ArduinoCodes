@@ -2,11 +2,10 @@
 // changed by Aubrey Ashton
 // last change: 3/17/2020
 
-#define SensorPin A0 //defining sensor input to board 
-float SoilMoisture = 0; // initializing a value of zero for the measured moisture levels
+int SensorPin = A0; 
+float SoilMoisture = 0; 
 
 void setup() { 
-//exchange messages with the Serial Monitor at a data rate of 9600 bits per second
  Serial.begin(9600); 
 }
 
