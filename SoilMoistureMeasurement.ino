@@ -1,6 +1,6 @@
 // original source: Saeed Hosseini @ Electropeak
 // changed by Aubrey Ashton
-// last change: 3/17/2020
+// last change: 4/13/2020
 
 int SensorPin = A0; 
 float SoilMoisture = 0; 
