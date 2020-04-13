@@ -19,8 +19,8 @@ void loop() {
  } 
  
  // the average of the SoilMoisture readings is taken by dividing the variable by the number of samples (100)
- sensorValue = sensorValue/100.0; 
+ SoilMoisture = SoilMoisture/100.0; 
  
- Serial.println(sensorValue); //the reading is printed to the Serial Monitor
+ Serial.println(SoilMoisture); //the reading is printed to the Serial Monitor
  delay(30); // delay 30ms
 }
