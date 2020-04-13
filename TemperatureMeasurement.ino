@@ -1,6 +1,6 @@
 // original source : http://kookye.com/2019/08/28/arduino-lesson-tmp36/
 // changed by Aubrey Ashton
-// last change: 3/17/2020
+// last change: 4/13/2020
 
 int sensorPin = A0;
 
