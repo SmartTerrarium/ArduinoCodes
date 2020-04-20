@@ -132,20 +132,20 @@ void loop() {
   
       // Temperature:
       case 1:
+        lcd.clear();
         lcd.setCursor(0, 0);
         lcd.print("Internal Temp:  ");
         lcd.setCursor(0, 1);
-        lcd.print("                ");
         lcd.print(temperatureF);
         break;
   
       // Light Reading:
       case 2:
+        lcd.clear();
         lcd.setCursor(0, 0);
         lcd.print("Ambient Light:  ");
         lcd.setCursor(0, 1);
-        lcd.print("                ");
-        
+                
           if (photocellReading < 10) {
             lcd.print("Dark");
           } else if (photocellReading < 200) {
@@ -161,26 +161,24 @@ void loop() {
   
       // Soil Moisture:
       case 3:
+          lcd.clear();
         switch(Page){
           case 0:
           lcd.setCursor(0, 0);
           lcd.print("Soil Moisture:  ");
           lcd.setCursor(0, 1);
-          lcd.print("                ");
           lcd.print(SoilMoisture);
           break;
           case 1:
           lcd.setCursor(0, 0);
           lcd.print("Soil Moisture:  ");
           lcd.setCursor(0, 1);
-          lcd.print("                ");
           lcd.print(SoilMoisture);
           break;
           case 2:
           lcd.setCursor(0, 0);
           lcd.print("Soil Moisture:  ");
           lcd.setCursor(0, 1);
-          lcd.print("                ");
           lcd.print(SoilMoisture);
           break;
         }
