@@ -1,5 +1,5 @@
 // author: Aubrey Ashton
-// last change: 4/13/2020
+// last change: 4/19/2020
 
 #include <Wire.h>
 #include <LiquidCrystal.h>
@@ -36,18 +36,14 @@ void setup() {
   int DisplayCase = 0;
   // Page keeps track of how many times up/down has been pressed
   int Page = 0;
+  //
+
 
 void loop() {
 // Soil Moisture Sensor 1:
-    for (int i = 0; i <= 100; i++) 
-   { 
-     SoilMoisture = SoilMoisture + analogRead(soilmoisturePin); 
-     delay(1); 
-   } 
-   
-   // the average of the SoilMoisture readings is taken by dividing the variable by the number of samples (100)
-   SoilMoisture = SoilMoisture/100.0; 
-   
+    
+     SoilMoisture = analogRead(soilmoisturePin); 
+      
    Serial.println(SoilMoisture); //the reading is printed to the Serial Monitor
    
 
@@ -55,10 +51,8 @@ void loop() {
 
    int reading = analogRead(tempPin);  
    // converting that reading to voltage, for 3.3v arduino use 3.3
-   float voltage = reading * 5;
-   voltage /= 1024.0; 
-   float temperatureC = (voltage - 0.5) * 100 ;
-   float temperatureF = (temperatureC * 9.0 / 5.0) + 32.0;
+   float voltage = reading * 5 /1024.0;
+   float temperatureF = (((voltage - 0.5) * 100) * 9.0 / 5.0) + 32.0;
    Serial.print(temperatureF); Serial.println(" degrees F");
 
 
@@ -72,19 +66,7 @@ void loop() {
 
 // Light Sensor:
     photocellReading = analogRead(photocellPin);  
-        if (photocellReading < 10) {
-        Serial.println(" - Dark");
-      } else if (photocellReading < 200) {
-        Serial.println(" - Dim");
-      } else if (photocellReading < 500) {
-        Serial.println(" - Light");
-      } else if (photocellReading < 800) {
-        Serial.println(" - Bright");
-      } else {
-        Serial.println(" - Very bright");
-      }
-     // delay(1000);
-
+    
 // LCD Display Code:
     uint8_t buttons = lcd.readButtons();
   
@@ -153,7 +135,8 @@ void loop() {
         lcd.setCursor(0, 0);
         lcd.print("Internal Temp:  ");
         lcd.setCursor(0, 1);
-        lcd.print("Warm            ");
+        lcd.print("                ");
+        lcd.print(temperatureF);
         break;
   
       // Light Reading:
@@ -161,7 +144,19 @@ void loop() {
         lcd.setCursor(0, 0);
         lcd.print("Ambient Light:  ");
         lcd.setCursor(0, 1);
-        lcd.print("Bright          ");
+        lcd.print("                ");
+        
+          if (photocellReading < 10) {
+            lcd.print("Dark");
+          } else if (photocellReading < 200) {
+            lcd.print("Dim");
+          } else if (photocellReading < 500) {
+            lcd.print("Light");
+          } else if (photocellReading < 800) {
+            lcd.print("Bright");
+          } else {
+            lcd.print("Very Bright");
+          }
         break;
   
       // Soil Moisture:
@@ -171,19 +166,22 @@ void loop() {
           lcd.setCursor(0, 0);
           lcd.print("Soil Moisture:  ");
           lcd.setCursor(0, 1);
-          lcd.print("Plant 1: Wet    ");
+          lcd.print("                ");
+          lcd.print(SoilMoisture);
           break;
           case 1:
           lcd.setCursor(0, 0);
           lcd.print("Soil Moisture:  ");
           lcd.setCursor(0, 1);
-          lcd.print("Plant 2: Dry    ");
+          lcd.print("                ");
+          lcd.print(SoilMoisture);
           break;
           case 2:
           lcd.setCursor(0, 0);
           lcd.print("Soil Moisture:  ");
           lcd.setCursor(0, 1);
-          lcd.print("Plant 3: Good   ");
+          lcd.print("                ");
+          lcd.print(SoilMoisture);
           break;
         }
         break;
